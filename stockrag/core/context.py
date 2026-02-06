@@ -7,9 +7,15 @@ as their first parameter.
 """
 
 from dataclasses import dataclass, field
-from typing import List, Optional, Any
+from typing import List, Optional, TYPE_CHECKING
 
 from llama_index.core import Document, VectorStoreIndex, StorageContext
+
+if TYPE_CHECKING:
+    from llama_index.core.query_engine import BaseQueryEngine
+    from llama_index.vector_stores.chroma import ChromaVectorStore
+    from chromadb import ClientAPI
+    from chromadb.api.models.Collection import Collection
 
 
 @dataclass
@@ -33,8 +39,8 @@ class RAGContext:
     company_name: str
     documents: List[Document] = field(default_factory=list)
     index: Optional[VectorStoreIndex] = None
-    query_engine: Optional[Any] = None
-    vector_store: Optional[Any] = None
+    query_engine: Optional["BaseQueryEngine"] = None
+    vector_store: Optional["ChromaVectorStore"] = None
     storage_context: Optional[StorageContext] = None
-    chroma_client: Optional[Any] = None
-    chroma_collection: Optional[Any] = None
+    chroma_client: Optional["ClientAPI"] = None
+    chroma_collection: Optional["Collection"] = None

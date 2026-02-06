@@ -1,7 +1,10 @@
 """Web content loader using BeautifulSoup."""
 
+import logging
 from datetime import datetime
 from typing import List
+
+logger = logging.getLogger(__name__)
 
 from llama_index.core import Document
 from llama_index.readers.web import BeautifulSoupWebReader
@@ -26,7 +29,7 @@ def load_company_website(
     Returns:
         List of loaded Document objects
     """
-    print("Loading company website content...")
+    logger.info("Loading company website content...")
     web_reader = BeautifulSoupWebReader()
 
     web_docs = []
@@ -47,10 +50,10 @@ def load_company_website(
 
             web_docs.extend(docs)
         except Exception as e:
-            print(f"Error loading {url}: {e}")
+            logger.error("Error loading %s: %s", url, e)
 
     if add_to_context:
         ctx.documents.extend(web_docs)
 
-    print(f"Loaded {len(web_docs)} website documents")
+    logger.info("Loaded %d website documents", len(web_docs))
     return web_docs

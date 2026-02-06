@@ -41,6 +41,7 @@ def query_with_filters(
 
     metadata_filters = MetadataFilters(filters=filters) if filters else None
 
+    # Fresh engine needed: filters change per query call
     query_engine = ctx.index.as_query_engine(
         similarity_top_k=similarity_top_k,
         filters=metadata_filters,

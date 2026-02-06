@@ -1,6 +1,9 @@
 """PDF document loader for annual reports."""
 
+import logging
 from typing import List
+
+logger = logging.getLogger(__name__)
 
 from llama_index.core import Document
 from llama_index.readers.file import PDFReader
@@ -25,7 +28,7 @@ def load_annual_reports(
     Returns:
         List of loaded Document objects
     """
-    print("Loading annual reports...")
+    logger.info("Loading annual reports...")
     pdf_reader = PDFReader()
 
     annual_docs = []
@@ -47,5 +50,5 @@ def load_annual_reports(
     if add_to_context:
         ctx.documents.extend(annual_docs)
 
-    print(f"Loaded {len(annual_docs)} annual report documents")
+    logger.info("Loaded %d annual report documents", len(annual_docs))
     return annual_docs

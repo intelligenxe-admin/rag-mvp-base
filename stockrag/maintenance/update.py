@@ -1,6 +1,9 @@
 """Index update operations."""
 
+import logging
 from typing import List
+
+logger = logging.getLogger(__name__)
 
 from llama_index.core import Document
 
@@ -22,7 +25,7 @@ def update_with_new_data(ctx: RAGContext, new_documents: List[Document]) -> None
     if not ctx.index:
         raise IndexNotBuiltError()
 
-    print(f"Adding {len(new_documents)} new documents to index...")
+    logger.info("Adding %d new documents to index...", len(new_documents))
 
     for doc in new_documents:
         ctx.index.insert(doc)
@@ -30,4 +33,4 @@ def update_with_new_data(ctx: RAGContext, new_documents: List[Document]) -> None
     # Also add to context documents list
     ctx.documents.extend(new_documents)
 
-    print("Index updated!")
+    logger.info("Index updated!")

@@ -5,7 +5,6 @@ Provides the create_context factory function to initialize RAGContext
 with all necessary LlamaIndex settings and vector store configuration.
 """
 
-import os
 from typing import Optional
 
 from llama_index.core import Settings, StorageContext
@@ -44,18 +43,17 @@ def create_context(
 
 def _initialize_context(ctx: RAGContext, config: RAGConfig) -> None:
     """Initialize LlamaIndex settings and vector store."""
-    # Validate API key
-    api_key = config.llm.api_key or os.environ.get("GROQ_API_KEY")
-    if not api_key:
+    # Validate API key (resolved in LLMConfig.__post_init__ from env)
+    if not config.llm.api_key:
         raise ConfigurationError(
-            "Groq API key must be provided or set in GROQ_API_KEY environment variable"
+            "Groq API key must be provided via RAGConfig or GROQ_API_KEY environment variable"
         )
 
     # Configure LLM
     Settings.llm = Groq(
         model=config.llm.model,
         temperature=config.llm.temperature,
-        api_key=api_key,
+        api_key=config.llm.api_key,
     )
 
     # Configure embeddings

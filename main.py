@@ -4,10 +4,14 @@ RAG Knowledge Base for NYSE Company - Example Usage
 This file demonstrates how to use the stockrag package.
 """
 
+import logging
+
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
+
+logging.basicConfig(level=logging.INFO)
 
 from stockrag import (
     create_context,

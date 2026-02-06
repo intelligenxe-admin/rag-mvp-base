@@ -24,8 +24,8 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Chroma / Vector DB
-chroma/
+# Chroma / Vector DB (per-ticker directories)
+chroma_db_*/
 *.sqlite3
 
 

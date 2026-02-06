@@ -1,7 +1,10 @@
 """News and RSS feed loader."""
 
+import logging
 from datetime import datetime
 from typing import List, Optional
+
+logger = logging.getLogger(__name__)
 
 from llama_index.core import Document
 from llama_index.readers.web import TrafilaturaWebReader
@@ -28,16 +31,14 @@ def load_news_releases(
     Returns:
         List of loaded Document objects
     """
-    print("Loading news releases...")
+    logger.info("Loading news releases...")
 
     news_docs = []
 
     # Option 1: RSS feed
     if rss_url:
-        # from llama_index.readers.rss import RssReader
-        # rss_reader = RssReader()
-        # docs = rss_reader.load_data(urls=[rss_url])
-        pass
+        # TODO: Implement RSS feed support using llama_index.readers.rss.RssReader
+        logger.warning("RSS feed loading is not yet implemented. Provide news_urls instead.")
 
     # Option 2: Direct URLs
     if news_urls:
@@ -59,10 +60,10 @@ def load_news_releases(
 
                 news_docs.extend(docs)
             except Exception as e:
-                print(f"Error loading news from {url}: {e}")
+                logger.error("Error loading news from %s: %s", url, e)
 
     if add_to_context:
         ctx.documents.extend(news_docs)
 
-    print(f"Loaded {len(news_docs)} news documents")
+    logger.info("Loaded %d news documents", len(news_docs))
     return news_docs
